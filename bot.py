@@ -24,21 +24,30 @@ def webhook():
     data = request.get_json(silent=True) or {}
     msg = data.get("business_message", {})
 
-    if msg.get("text", "").strip() == "001":
+        if msg.get("text", "").strip() == "001":
         requests.post(
-            API + "sendVenue",
+            API + "sendLocation",
             json={
                 "business_connection_id": msg["business_connection_id"],
                 "chat_id": msg["chat"]["id"],
                 "latitude": LATITUDE,
-                "longitude": LONGITUDE,
-                "title": "Manzil va aloqa",
-                "address": (
-                    "📍 Manzil: Аккурганлик 84-уй\n"
-                    "📞 Telefon: +998 99 351 29 29\n"
-                    "📞 Telefon: +998 88 644 10 75\n"
-                    "🕒 Ish vaqti: 24/7"
-                )
+                "longitude": LONGITUDE
+            },
+            timeout=15
+        )
+
+        requests.post(
+            API + "sendMessage",
+            json={
+                "business_connection_id": msg["business_connection_id"],
+                "chat_id": msg["chat"]["id"],
+                "text": (
+                    "📍 <b>Manzil:</b> Аккурганлик 84-уй\n"
+                    "📞 <b>Telefon:</b> +998 99 351 29 29\n"
+                    "📞 <b>Telefon:</b> +998 88 644 10 75\n"
+                    "🕒 <b>Ish vaqti:</b> 24/7"
+                ),
+                "parse_mode": "HTML"
             },
             timeout=15
         )
