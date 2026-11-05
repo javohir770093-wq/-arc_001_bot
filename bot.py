@@ -24,7 +24,7 @@ def webhook():
     data = request.get_json(silent=True) or {}
     msg = data.get("business_message", {})
 
-           if msg.get("text", "").strip() == "001":
+    if msg.get("text", "").strip() == "001":
         requests.post(
             API + "sendVenue",
             json={
@@ -43,10 +43,7 @@ def webhook():
             timeout=15
         )
 
-        )
-
     return "OK"
-
 if __name__ == "__main__":
     url = os.environ["RENDER_EXTERNAL_URL"]
     requests.post(
